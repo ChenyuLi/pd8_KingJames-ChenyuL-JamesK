@@ -1,0 +1,15 @@
+DevLog
+
+05/27/14
+We have developed the overall framework of our project. 
+GUI or not GUI?! We don't now yet... 
+Tiles on the map are 2-D arrays.
+One map can be connected to other maps, points on maps could include buildings that players can enter (hence link to another map).
+Grasses are also point on the map, on which there is a chance to trigger a fight (again, link to another scenario).
+Players have attributes that include a bag, which is a circularly linked list that contains items such as pokeball (to catch pokemon)
+And potions (that boosts the stat of the player's Pokemon). 
+Likewise, the player's Pokemons are also contained in a circularly linked list. 
+NPCs are also present on the map, the player can talk to them or fight them. 
+Gym leaders are in buildings and player's ultimate goal is to defeat them.
+
+
