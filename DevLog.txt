@@ -24,3 +24,15 @@ Players: Have a bag (a list), that contain array of Pokemon, array of items.
 Items: Potions, pokeball
 Main Class: Intro allows player to choose a starter pokemon. Then, player dropped on Map. 
 On map, player can check his bag at any time.
+
+05/29/14
+Additional Classes:
+Battle Scene: contain a player and an NPC.
+NPC: Have a array of Pokemon, a list of banters and taunts.
+Flow Chart:
+Main Class (Intro)-->Map-->Tiles-->Grass-->Battle Scene-->Pokemon-->Moves
+                        -->NPCs-->Battle Scene-->Pokemon-->Moves
+                        -->Building-->Pokemon (healing)
+                -->Player-->Pokemon
+                         -->Items
+                         
