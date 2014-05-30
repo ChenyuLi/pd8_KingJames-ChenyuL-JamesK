@@ -1,9 +1,9 @@
 public class Pokemon{
     private String name,type,display,evolvestring2,evolvestring3,evolveName2,evolveName3;
-    private int state,state2,state3,totalhp,currhp,totalexp,currexp,level;
+    private int state,state2,state3,totalhp,currhp,totalexp,currexp,level,atk,spd,def;
     private Moves[]moves;
 
-    public Pokemon(String a, String b,String bc, String c, String d, String e, String f, int g, int h, int i, int j, int k, int l, int m , int n, Moves[]o){
+    public Pokemon(String a, String b,String bc, String c, String d, String e, String f, int g, int h, int i, int j, int k, int l, int m , int n, Moves[]o,int p, int q, int r){
 	name = a;
 	type = b;
 	display = bc;
@@ -20,6 +20,9 @@ public class Pokemon{
 	currexp = m;
 	level = n;
 	moves = o;
+	atk = p;
+	spd = q;
+	def = r;
 	
     }
     public void loseHP(int n ){
@@ -52,6 +55,21 @@ public class Pokemon{
 	if (currexp > totalexp){
 	    currexp = 0;
 	    level = level +1;
+	    if (state == 0){
+		atk++;
+		spd++;
+		def++;
+	    }
+	    else if (state == 1){
+		atk = atk+2;
+		spd = spd+2;
+		def = def+2;
+	    }
+	    else if (state == 2){
+		atk = atk+4;
+		spd = spd+4;
+		def = def+4;
+	    }
 	    if (state == 0 && level >= state2){
 		name = evolveName2;
 		display = evolvestring2;
