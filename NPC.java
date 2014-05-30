@@ -8,6 +8,7 @@ public class NPC implements Tiles{//this is an NPC
 	this.taunts = taunts;
 	anger = 3;
 	money = (int) (500 * Math.random());
+	player = null;
     }
     public boolean encounter(){
 	if (anger * Math.random() > 3){
