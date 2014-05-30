@@ -35,5 +35,7 @@ Main Class (Intro)-->Map-->Tiles-->Grass-->Battle Scene-->Pokemon-->Moves
                         -->Building-->Pokemon (healing)
                 -->Player-->Pokemon
                          -->Items
-Completed a few skeletal classes
-                         
+Completed a few skeletal classes.
+
+05/30/14
+Added more skeletal classes
