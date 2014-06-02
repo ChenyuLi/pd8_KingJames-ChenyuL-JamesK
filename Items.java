@@ -1,4 +1,4 @@
 public interface Items{
-    private int price;
-    public int cost(){}
+   
+    public int cost();
 }

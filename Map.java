@@ -1,8 +1,17 @@
-public interface Map{//healing center, town, and gym will implement this
+public class Map{//healing center, town, and gym will implement this
     private Tiles[][]tiles;
-    public Map(){};
-    public int getWidth(){}
-    public int getLength(){}
-    public String toString(){}
+    public Map(Tiles[][]a){
+	tiles = a;
+    }
+    public int getWidth(){
+	return tiles.length;
+    }
+    public int getLength(){
+	return tiles[0].length;
+    }
+    public String toString(){
+	return "a";
+    }
+
 }
     

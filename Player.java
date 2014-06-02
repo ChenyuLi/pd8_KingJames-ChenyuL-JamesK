@@ -1,3 +1,4 @@
+import java.util.*;
 public class Player{
     private String name;
     private Pokemon[]pokemons;
@@ -7,9 +8,9 @@ public class Player{
     private Map map;//the map the player is currently on
     public Player(String name, Pokemon pokemon){
         this.name = name;
-        pokemons = new Pokemons[6];
+        pokemons = new Pokemon[6];
         pokemons[0] = pokemon;//Initial pokemon
-        items = new ArrayList<items>;
+        items = new ArrayList<Items>();
         money = 100;
         x = y = 0; //where to initialize the player?
     }
@@ -48,12 +49,19 @@ public class Player{
     public void changeMoney(int delta){
         money += delta;
     }
-    public ArrayList<items> getItems(){
+    public ArrayList<Items> getItems(){
         return items;
     }
     public Pokemon[] getPokemons(){
         return pokemons;
     }
-    
+    public String toString(){
+	int i = 0;
+	while (i < pokemons.length){
+	    System.out.println(pokemons[i].getName());
+	    i ++;
+	}
+	return "Yay";
+    }
 }
     
