@@ -22,4 +22,3 @@ public class Map{//healing center, town, and gym will implement this
 	return string;	
     }
 }
-    
