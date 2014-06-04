@@ -41,4 +41,14 @@ Completed a few skeletal classes.
 Added more skeletal classes
 
 6/2/14
-Started putting everything together. Basic class to make it to work.
+Started putting everything together. 
+Basic class to make it to work.
+
+6/3/14
+Finished writing all skeleton classes. 
+Started driver.
+
+6/4/14
+Made sure everything compiles.
+Decided to do Gui!!!
+Yay for colors.
