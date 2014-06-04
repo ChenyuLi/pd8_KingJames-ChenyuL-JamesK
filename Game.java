@@ -1,5 +1,10 @@
 import java.util.*;
 public class Game{
+    public Map current;
+    public Game(){
+    	current = null;
+    }
+    
     //intro
     public static void main(String[]args){
 	System.out.println("Hi There! What's your name?");
