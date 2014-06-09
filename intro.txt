@@ -1,0 +1,10 @@
+Hi There! I'm Professor Oak, Your Guide
+to Everything Pokemon. Pokemons are Creatures
+that people train to battle with one another.
+(Click Space Bar when you are ready.)
+Now, it's time to choose your starter Pokemon
+so that you too can get started on your Journey!
+You have Three choices, a Charmander, a Bulbasaur,
+and a Squirtle.
+(Click Space Bar when you are ready.)
+<1>Previous <2> Select <3> Next
