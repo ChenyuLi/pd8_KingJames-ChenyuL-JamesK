@@ -52,3 +52,15 @@ Started driver.
 Made sure everything compiles.
 Decided to do Gui!!!
 Yay for colors.
+
+6/8/14 
+Well, I forgot to update this... so I'll include stuff from the past few days.
+Revamping the project by using Processing 2.0. 
+Spent 6/7/14 learning it. I know the basics to be able to create my project. Also, it's very similiar to java.
+Have everything planned out. It's actually easier than our last design. 
+It's much more colorful and visual too.
+Note: Processing is amazing. It's like Netlogo + Java combined. Doesn't even require you to compile. There's a button.
+Moral: It's the little things in life that matter.
+I feel as if this transition may be a little late...
+but I'm bringing my laptop to school so that I can work on this project whenever i have feel time.
+For the coding, I got the basic layout of the map which consists of tiles, the tiles class, and the player class.
