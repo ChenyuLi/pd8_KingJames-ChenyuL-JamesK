@@ -64,3 +64,10 @@ Moral: It's the little things in life that matter.
 I feel as if this transition may be a little late...
 but I'm bringing my laptop to school so that I can work on this project whenever i have free time.
 For the coding, I got the basic layout of the map which consists of tiles, the tiles class, and the player class.
+
+6/9/14
+Representing character as a red tile(will replace with image later) and it has the ability to move north,west,south, and east.
+When encountering an obstacle such as another Trainer, the player will stop.
+Also, the player has the ability to access the tile in the direction it is facing. 
+If Spacebar is pressed while facing another trainer, the scene will change into a battle scene.
+Working on battle scene, created pokemon class and move class. Incoporating it together to the battle scene.
