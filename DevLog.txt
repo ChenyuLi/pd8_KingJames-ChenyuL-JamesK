@@ -71,3 +71,6 @@ When encountering an obstacle such as another Trainer, the player will stop.
 Also, the player has the ability to access the tile in the direction it is facing. 
 If Spacebar is pressed while facing another trainer, the scene will change into a battle scene.
 Working on battle scene, created pokemon class and move class. Incoporating it together to the battle scene.
+Also, ramped up the intro, it's just amazing. My favorite part is cycling through the starter pokemons. 
+I circularly linked them in order to do this. Also, after you choose your pokemon, the scene completely changes into the 
+actual map/game.
