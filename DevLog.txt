@@ -74,3 +74,11 @@ Working on battle scene, created pokemon class and move class. Incoporating it t
 Also, ramped up the intro, it's just amazing. My favorite part is cycling through the starter pokemons. 
 I circularly linked them in order to do this. Also, after you choose your pokemon, the scene completely changes into the 
 actual map/game.
+
+6/11/14
+Incorporated images instead of a blue square for the character. The character has 4 different views, one for each direction.
+When interacting with another trainer, another scene appears where the pokemons battle. To do this, I enlarged the screen size.
+Also, as I'm progressing, most things are going smoothly. No really big problems that I foresee. 
+Last fundamental thing to do is actual battling code that compares both pokemon. 
+Everything else after that is just to make the project nicer.
+
