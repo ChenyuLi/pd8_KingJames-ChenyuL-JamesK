@@ -8,3 +8,4 @@ You have Three choices, a Charmander, a Bulbasaur,
 and a Squirtle.
 (Click Space Bar when you are ready.)
 <1>Previous <2> Select <3> Next
+VS

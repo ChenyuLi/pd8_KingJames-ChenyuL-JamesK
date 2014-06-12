@@ -23,7 +23,6 @@ import java.util.*;
     Player ash;
     
   color red =  color(245,20,20);
-  
   //All the moves
   Moves Slas = new Moves("Slash");
   Moves Tackl = new Moves("Tackle");
@@ -36,14 +35,18 @@ import java.util.*;
   Moves[]bulbasaurMoves = new Moves[]{Bit};
   Pokemon Bulbasaur = new Pokemon (15, 5, 4, 5, 2, bulbasaurMoves, "Bulbasaur","Bulbasaur.png");
   Pokemon[] Starters;
+  ArrayList<Pokemon> dreamteam;
 void setup(){
      size(400,400);
-    frameRate(10);  
-    
-     map = new Tile[20][20];
+    frameRate(10);
+  //Testing
+   setEnemy(Bulbasaur);
   
+   frame.setResizable(true);
+     map = new Tile[20][20];
+  dreamteam = new ArrayList<Pokemon>();
   ash = new Player();
-  state = 1;
+  state = 1;//supposed to be 1 3 for testing
   istate = 1;
  s = 0; 
  Starters = new Pokemon[]{Charmander, Squirtle, Bulbasaur};
@@ -53,6 +56,7 @@ void setup(){
        } 
     }
     map[5][4] = new Tile(5,4);
+  map[2][16].yesOccupied();
 }
 
 public void addTile(int r, int c, color co){
@@ -60,7 +64,10 @@ public void addTile(int r, int c, color co){
 }
 void battle(){
 state = 3;
-}  
+}
+void setEnemy(Pokemon p){
+ Enemy = p; 
+}
 void draw(){
    String lines[] = loadStrings("intro.txt");
    if (state == 1){
@@ -109,12 +116,22 @@ void draw(){
          s = 0;
        }
        else s += 1;
-      } 
+      }
+     if (key == '2'){
+      dreamteam.add(Starters[s]);
+       state = 2;
+     } 
      }
      }
    }
    if (state == 3){
+     frame.setSize(800,500);
      background (200);
+     User = dreamteam.get(0);
+     User.displayL();
+     Enemy.displayR();
+     text(lines[10],400,250);
+
    }
    else if (state == 2){
    ash.updateMap();
@@ -165,6 +182,10 @@ class Tile{
        trainer = false; 
     }
     
+    boolean getOccupied(){
+     return occupied; 
+    }
+    
     void yesOccupied(){
      occupied = true; 
     }
@@ -180,16 +201,36 @@ class Tile{
     
     public void display(){
      if (trainer == true){
-       fill(blue); 
+        fill(red);
+    rect(x * 20,y * 20,20,20); 
      }
-     else if (occupied == true){
-       fill(red);
+      else if (occupied == true){
+       if (ash.getDirection() == 1){
+         PImage img;
+     img = loadImage("redD.jpg");
+     image(img,x*20 + 5  ,y*20);
+       }
+          if (ash.getDirection() == 2){
+            PImage img;
+     img = loadImage("redR.jpg");
+     image(img,x*20,y*20);
+       }
+          if (ash.getDirection() == 3){
+            PImage img;
+     img = loadImage("redT.jpg");
+     image(img,x*20,y*20);
+       }
+          if (ash.getDirection() == 4){
+            PImage img;
+     img = loadImage("redS.jpg");
+     image(img,x*20,y*20);
+       }
      }
      else{
      fill(c);
-     }
     rect(x * 20,y * 20,20,20); 
-    }
+     }  
+  }
    
 public color getColor(){
    return c; 
@@ -207,7 +248,9 @@ class Player{
   y = 16;
   direction = NORTH;
  }
- 
+ int getDirection(){
+  return direction; 
+ }
  Tile checkFront(){
   Tile a = map[x][y-1];
    if (direction == NORTH){
@@ -277,6 +320,18 @@ void display(){
  PImage img;
  img = loadImage(pict);
  image(img,80,50); 
+}
+
+void displayL(){
+ PImage img;
+img = loadImage(pict);
+image(img, 0, 50);
+}
+
+void displayR(){
+ PImage img;
+img = loadImage(pict);
+image(img, 550, 50);
 }
 void useMove(int i){
  moveSet[i].activate(); 
