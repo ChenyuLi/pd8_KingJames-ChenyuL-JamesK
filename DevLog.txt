@@ -102,12 +102,19 @@ Here's the list of the stuff I've did:
   Trainer NEEDS to train his pokemon. Otherwise, very little chance of winning.
 - Top right patch of grass has Stronger and other pokemon. More variations.
 Last thing to do is just test for bugs and improve efficiency of code itself.
-Also, maybe add music? Have screen spin even encountering a battle?
+Also, maybe add music? Have screen spin when encountering a battle?
 Wow. Feels so relaxed now that I finished. No stress for tomorrow. 
-Once again. just love the intro and the healing center.
 Note to Mr. Brown: TRY THE HEALING CENTER FOR EACH STARTER POKEMON. AMAZING PICTURE.
 It's not the same as looking at it as a regular jpg file.
 
+6/15/14
+I putted the finishing touches on my project.
+ - Background Music. Yay pokemon theme song.
+ - I changed one thing in my file..... and there is NO lag at all. Character moves very smoothly.
+ - Fixed some bugs.
+ - Cleaned up code.
+BTW, turns out I deleted the readme file, so i'll put that back in.
+Also, dat contribution graph....
 
 
 
