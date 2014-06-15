@@ -1,6 +1,5 @@
 import java.util.*;
 import ddf.minim.*;  
-import java.util.concurrent.*;
     
     AudioPlayer player;
     Minim noise;
