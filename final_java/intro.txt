@@ -11,14 +11,16 @@ and a Squirtle.
 VS
 <Q>Battle         <E> Run
 Some Tips:
+- use W,A,S,D to move
 - Wild Pokemon may attack you in the grass
 - Your pokemon becomes stronger by battling other Pokemon
-- Train your pokemon before battling other trainers
+- Train your pokemon in the grass before battling other trainers
 - Enemy Trainers will battle you if you talk to them(with spacebar)
 - The Grandma at the bottom right is the boss. Looks can be Decieving!
  Beat her to win the Game!
 - If your pokemon dies, you lose!
 - There is a machine in the center of the map that heals your pokemon
+  Click Spacebar in front of it to use it.
 - Pokemon at the top right patch of grass are stronger than normal
 - When battling, click the moves you want to use ONCE don't hold the key
 - Last of all, HAVE FUN!

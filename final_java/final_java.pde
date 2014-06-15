@@ -13,7 +13,7 @@ import ddf.minim.*;
     
     Pokemon User, Enemy;
     
-    boolean trans,intro, canAttack, playmusic;
+    boolean trans,intro, canAttack, playmusic, introm;
     
     double before;
     
@@ -94,7 +94,7 @@ void setup(){
   fcomment = ecomment = wcomment= "";
     
   manA = new ArrayList<Pokemon>();
-  manA.add(new Pokemon(12, 4, 3, 4, 1, bulbasaurMoves, "Bulbasaur","Bulbasaur.png"));
+  manA.add(new Pokemon(12, 4, 3, 4, 1, pidgeyMoves, "Pidgey","Pidgey.png"));
    
   manB = new ArrayList<Pokemon>();
   manB.add(new Pokemon(18,7,6,3,6,turtwigMoves,"Turtwig","Turtwig.jpg"));
@@ -114,7 +114,7 @@ void setup(){
   fstate = 0;
   s = 0; 
   
-  canAttack = playmusic = intro = true;
+  canAttack = playmusic = intro = introm = true;
 
  Starters = new Pokemon[]{Charmander, Squirtle, Bulbasaur};
   
@@ -188,6 +188,7 @@ void setEnemy(Pokemon p){
  Enemy = p; 
 }
 void draw(){
+  if (introm == true){
   if ( playmusic == true){
   noise = new Minim(this);
   player = noise.loadFile("pokemontheme.mp3");
@@ -198,6 +199,20 @@ void draw(){
   if (millis() - forsound > 198000){
    playmusic = true; 
   }
+  }
+  if(introm == false){
+  if ( playmusic == true){
+  noise = new Minim(this);
+  player = noise.loadFile("pokemonbackground.mp3");
+  player.play();
+  forsound = millis();
+  playmusic = false;
+  }
+  if (millis() - forsound > 90999.96){
+   playmusic = true; 
+  }
+  }
+  
   if (intro == true){
     frame.setSize(1000,563);
     img = loadImage("introScreen.jpg");
@@ -220,7 +235,7 @@ void draw(){
      img = loadImage("Oak.png");
      image(img,80,0);   
      for (int i = 0; i < 4; i ++){
-      text(lines[i],75,360 + i * 10);
+      text(lines[i],50,360 + i * 10);
      }
      if (keyPressed){
       if (key == ' '){
@@ -234,11 +249,12 @@ void draw(){
      img = loadImage("Oak.png");
      image(img,80,0); 
      for (int i = 4; i < 9; i ++){
-      text(lines[i],75,320 + i * 10);
+      text(lines[i],50,320 + i * 10);
      }
-     if (keyPressed && millis() - before > 100){
+     if (keyPressed && millis() - before > 300){
        if (key == ' '){
-        istate = 3; 
+         before = millis();
+         istate = 3; 
        }
      }
      }
@@ -246,7 +262,7 @@ void draw(){
      background(white); 
      text(lines[9],75,370);
      Starters[s].display();
-     if (keyPressed){
+     if (keyPressed && millis() - before > 300){
       if (key == '1'){
        if (s == 0){
         s = 2; 
@@ -264,6 +280,7 @@ void draw(){
      if (key == '2'){
       dreamteam.add(Starters[s]);
       User = dreamteam.get(0);
+      before = millis();
        istate = 4;
      } 
      }
@@ -273,10 +290,10 @@ void draw(){
        background(white);
      img = loadImage("Oak.png");
      image(img,150,0); 
-     for (int i = 12; i < 24; i ++){
+     for (int i = 12; i < 26; i ++){
       text(lines[i],10,270 + i * 10);
      }
-      if (keyPressed){
+      if (keyPressed && millis() - before > 300){
        if (key == ' '){ 
        istate = 5; 
        frame.setSize(410,430);
@@ -290,8 +307,11 @@ void draw(){
     image (img, 0, 0);
    text("Your Journey to Become the Best has Started!", 75, 300);
    text("Good Luck and Have Fun!!!", 100,320);
-   if (keyPressed && millis() - before > 100){
+   if (keyPressed && millis() - before > 300){
     if (key == ' '){
+     player.close();
+     introm = false;
+     playmusic = true;
      state = 2; 
     }
    } 
@@ -381,9 +401,10 @@ void draw(){
      }
      else img = loadImage("enemyTrainer.png");
      image(img,140,0);
-     text("You Really Have Strong Pokemon!", 140, 250); 
+     fill(black);
+     text("You Really Have Strong Pokemon!", 120, 350); 
    if (keyPressed){
-   if (key == ' '){
+   if (key == ' ' && millis() - before > 300){
      trans = true;
     state = 2; 
    }
@@ -399,9 +420,9 @@ void draw(){
     fill(black);
    text ("I Challenge You To A Battle!!!",120,350);
    ash.checkFront().setEnemy();
-   delay(100);
    if (keyPressed){
-    if (key == ' '){
+    if (key == ' ' && millis() - before > 300){
+     delay(400);
      state = 3; 
     }
    } 
@@ -503,10 +524,12 @@ void draw(){
      }
      else if (ash.checkFront().isBoss() == true || ash.checkFront().isTrainer() == true){
      if (ash.checkFront().getDefeated() == false){
-            ash.checkFront().setEnemy();
+       ash.checkFront().setEnemy();
+       before = millis();
        state = 42;
      }
      else if (ash.checkFront().getDefeated() == true && trans == false){ 
+       before = millis();
        state = 41;
        }
     trans = !trans;
@@ -998,32 +1021,47 @@ class Moves{
    init = U.getName() + " Has Used "+ moveName + ". ";
    if (track == 0){
      int temp = U.getAtk() - E.getDef();
+     if (temp <= 0){
+      temp = 1; 
+     }
      E.loseHP(temp);
    ret = E.getName()+ " Has Lost " + temp + " HP!"; 
   }
    if (track == 1){
     int temp = U.getAtk() - E.getDef();
+    if (temp <= 0){
+      temp = 1; 
+     }
      E.loseHP(temp);
    ret = E.getName()+ " Has Lost " + temp + " HP!";    
  }
     if (track == 2){
     int temp = U.getAtk() - E.getDef();
+    if (temp <= 0){
+      temp = 1; 
+     }
      E.loseHP(temp);
    ret = E.getName()+ " Has Lost " + temp + " HP!";    
  }
  if (track == 3){
   int temp = int(U.getAtk() * .5);
+  if (temp <= 0){
+      temp = 1; 
+     }
   E.loseDef(temp);
  ret = E.getName() + " Has Lost " + temp + " Def!"; 
  }
  if (track == 4){
  int temp = int(U.getAtk() * .5);
+ if (temp <= 0){
+      temp = 1; 
+     }
   E.loseDef(temp);
  ret = E.getName() + " Has Lost " + temp + " Def!";  
  }
 if (track == 5){
  int temp = int(U.getDef() * .5);
- if (temp == 0){
+ if (temp <= 0){
   temp = 1; 
  }
   E.gainDef(temp);
@@ -1045,17 +1083,28 @@ if (track == 5){
  int temp = int(U.getAtk() * 2);
  int temp2 = int(U.getAtk() * .5);
   E.loseHP(temp);
+   if (temp2 <= 0){
+  temp2 = 1; 
+ }
   U.loseHP(temp2);
  ret = E.getName() + " Has Lost " + temp + " HP! " + U.getName() + " Has Been Hit with Recoil!";  
  }if (track == 10){
  int temp = int(U.getAtk() * 2);
- U.loseAtk(int (U.getAtk() * .5));
+ int temp2 = (int (U.getAtk() * .5));
+  if (temp2 <= 0){
+  temp2 = 1; 
+ }
+  U.loseAtk(temp2);
   E.loseHP(temp);
  ret = E.getName() + " Has Lost " + temp + " HP! " + U.getName() + " is Tired! Atk has Decreased!";  
  }
  if (track == 11){
  int temp = int(U.getAtk() * 2);
- U.loseDef(int (U.getDef() * .5));
+ int temp2 = (int (U.getDef() * .5));
+  if (temp2 <= 0){
+  temp2 = 1; 
+ }
+ U.loseDef(temp2);
   E.loseHP(temp);
  ret = E.getName() + " Has Lost " + temp + " HP! " + U.getName() + " is Tired! Def has Decreased!";  
  }
