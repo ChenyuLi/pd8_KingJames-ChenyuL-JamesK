@@ -3,9 +3,20 @@ to Everything Pokemon. Pokemons are Creatures
 that people train to battle with one another.
 (Click Space Bar when you are ready.)
 Now, it's time to choose your starter Pokemon
-so that you too can get started on your Journey!
-You have Three choices, a Charmander, a Bulbasaur,
+so that you can get started on your Journey!
+You have Three choices: a Charmander, a Bulbasaur,
 and a Squirtle.
 (Click Space Bar when you are ready.)
 <1>Previous <2> Select <3> Next
 VS
+<Q>Battle         <E> Run
+Some Tips:
+- Wild Pokemon may attack you in the grass
+- Your pokemon becomes stronger by battling other Pokemon
+- Train your pokemon before battling other trainers
+- Enemy Trainers will battle you if you talk to them(with spacebar)
+- The Grandma at the bottom right is the boss. Looks can be Decieving!
+ Beat her to win the Game!
+- If your pokemon dies, you lose!
+- There is a machine in the center of the map that heals your pokemon
+- Pokemon at the top right patch of grass are stronger than normal
