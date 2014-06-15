@@ -20,6 +20,5 @@ Some Tips:
 - If your pokemon dies, you lose!
 - There is a machine in the center of the map that heals your pokemon
 - Pokemon at the top right patch of grass are stronger than normal
-- Hold, not just click, W,A,S,D to move (just like in the actual pokemon game!)
 - When battling, click the moves you want to use ONCE don't hold the key
 - Last of all, HAVE FUN!

@@ -141,8 +141,8 @@ void setup(){
   } 
  }
  
- for (int i = 12; i < 16; i++){
-  for (int j = 3; j < 6 ; j++){
+ for (int i = 9; i < 16; i++){
+  for (int j = 3; j < 8 ; j++){
   map[i][j].beGrass2();
   } 
  }
@@ -157,7 +157,24 @@ void setup(){
  map[15][11].beWater();
  map[15][12].beWater();
  map[14][11].beWater();
+ map[17][8].beWater();
+ map[18][8].beWater();
+ map[19][8].beWater();
+ map[18][7].beWater();
+ map[19][7].beWater();
+ map[19][6].beWater();
+ map[16][12].beWater();
+ map[17][12].beWater();
+ map[18][12].beWater();
+ map[17][14].beWater();
+ map[18][14].beWater();
+ map[19][14].beWater();
+ map[18][15].beWater();
+ map[19][15].beWater();
+ map[19][16].beWater();
+ 
  map[10][10].beHealer();
+
 
 }
 
@@ -256,7 +273,7 @@ void draw(){
        background(white);
      img = loadImage("Oak.png");
      image(img,150,0); 
-     for (int i = 12; i < 25; i ++){
+     for (int i = 12; i < 24; i ++){
       text(lines[i],10,270 + i * 10);
      }
       if (keyPressed){
@@ -406,7 +423,7 @@ void draw(){
    if (key == 'w'){
     ash.moveUp(); 
      if (map[ash.getX()][ash.getY()].isGrass() == true){
-     if ((int)random(10) == 0){
+     if ((int)random(30) == 0){
      Pokemon a = (Pokemon)(pokemonList1[((int)random(5))].clone());
      Enemy = a;
      state = 3;
@@ -414,7 +431,7 @@ void draw(){
      }
    }
    else if(map[ash.getX()][ash.getY()].isGrass2() == true){
-      if ((int)random(10)==0){
+      if ((int)random(30)==0){
      Pokemon a = (Pokemon)(pokemonList2[((int)random(3))].clone());
      Enemy = a;
      state = 3;
@@ -425,14 +442,14 @@ void draw(){
    else if (key == 'd'){
    ash.moveRight(); 
   if (map[ash.getX()][ash.getY()].isGrass() == true){
-     if ((int)random(10) == 0){
+     if ((int)random(30) == 0){
      Pokemon a = (Pokemon)(pokemonList1[((int)random(5))].clone());
      Enemy = a;
      state = 3;
      fstate = 0;
      }
      else if(map[ash.getX()][ash.getY()].isGrass2() == true){
-      if ((int)random(10)==0){
+      if ((int)random(30)==0){
      Pokemon a = (Pokemon)(pokemonList2[((int)random(3))].clone());
      Enemy = a;
      state = 3;
@@ -445,14 +462,14 @@ void draw(){
    else if (key == 's'){
     ash.moveDown(); 
   if (map[ash.getX()][ash.getY()].isGrass() == true){
-     if ((int)random(10) == 0){
+     if ((int)random(30) == 0){
      Pokemon a = (Pokemon)(pokemonList1[((int)random(5))].clone());
      Enemy = a;
      state = 3;
      fstate = 0;
      }
      else if(map[ash.getX()][ash.getY()].isGrass2() == true){
-      if ((int)random(10)==0){
+      if ((int)random(30)==0){
      Pokemon a = (Pokemon)(pokemonList2[((int)random(3))].clone());
      Enemy = a;
      state = 3;
@@ -464,7 +481,7 @@ void draw(){
    else if (key == 'a'){
     ash.moveLeft(); 
   if (map[ash.getX()][ash.getY()].isGrass() == true){
-     if ((int)random(10) == 0){
+     if ((int)random(30) == 0){
      Pokemon a = (Pokemon)(pokemonList1[((int)random(5))].clone());
      Enemy = a;
      state = 3;
@@ -472,7 +489,7 @@ void draw(){
      }
    }
  else if(map[ash.getX()][ash.getY()].isGrass2() == true){
-      if ((int)random(10)==0){
+      if ((int)random(30)==0){
      Pokemon a = (Pokemon)(pokemonList2[((int)random(3))].clone());
      Enemy = a;
      state = 3;
@@ -717,9 +734,9 @@ class Tile{
        }
      }
      else{
-     fill(c);
-    rect(x * 20,y * 20,20,20); 
-     }  
+      fill(c);
+      rect(x * 20,y * 20,20,20); 
+    }  
   }
    
    public color getColor(){
