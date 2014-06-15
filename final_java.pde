@@ -1,30 +1,38 @@
 import java.util.*;
-  
+import ddf.minim.*;  
+    
+    AudioPlayer player;
+    Minim noise;
+    
     final static int NORTH = 1;
     final static int EAST = 2;
     final static int SOUTH = 3;
     final static int WEST = 4;
     
-    int state; //to change from intro, to main game, to battle scenes
-    //1 main 2 battle 3 intro
-    int istate; //same thing but for intro because intro has several parts
-    int s;
-    int fstate; //states for fighting
+    int state, istate, s, fstate;
+    
     Pokemon User, Enemy;
-    boolean trans,intro;
+    
+    boolean trans,intro, canAttack, playmusic;
+    
+    double before;
+    
+    long forsound;
+    
+    PImage img;
     
     Tile[][]map;
     
-    color brown = color(75,140,97);
+    color green = color(75,140,97);
     color blue = color(40,40,255);    
     color white = color(255,255,255);
     color black = color(0,0,0);
-    boolean moving, canAttack;   
-    double before;
-  
+    color red =  color(245,20,20);
+
     Player ash;
+    
     String fcomment,ecomment,wcomment;
-  color red =  color(245,20,20);
+    
   //All the moves
   Moves Slas = new Moves("Slash");
   Moves Tackl = new Moves("Tackle");
@@ -42,6 +50,7 @@ import java.util.*;
   Moves Thunde = new Moves ("Thunder");
   Moves PoisonStin = new Moves ("Poison Sting");
   Moves WingAttac = new Moves ("Wing Attack");
+  
   //All the Pokemons and their movesets
   Moves[]charmanderMoves = new Moves[]{Slas,Grow,Embe,OverHea};
   Pokemon Charmander = new Pokemon (15, 5, 5, 3, 2, charmanderMoves, "Charmander", "Charmander.jpg");
@@ -67,66 +76,88 @@ import java.util.*;
   Pokemon Zigzagoon = new Pokemon (17, 7, 5, 5, 5, zigzagoonMoves,"Zigzagoon","Zigzagoon.png");
   Pokemon[] pokemonList1 = new Pokemon[]{Espeon, Jolteon, Ekans, Pidgey, Krabby};
   Pokemon[] pokemonList2 = new Pokemon[]{Growlithe, Turtwig, Zigzagoon};
-  //Enemy Trainer's Pokemon
+  
+  //Enemy Trainers' Pokemon
   ArrayList<Pokemon> manA, manB, boss;
+  
   Pokemon[] Starters;
+  
   ArrayList<Pokemon> dreamteam;
+  
 void setup(){
-     size(400,400);
-    frameRate(20);
-    fcomment = ecomment = wcomment= "";
-   manA = new ArrayList<Pokemon>();
-   manA.add(new Pokemon(12, 4, 3, 4, 1, bulbasaurMoves, "Bulbasaur","Bulbasaur.png"));
-   manB = new ArrayList<Pokemon>();
-   manB.add(new Pokemon(18,7,6,3,6,turtwigMoves,"Turtwig","Turtwig.jpg"));
-   boss = new ArrayList<Pokemon>();
-   boss.add(new Pokemon(20, 10, 8, 4, 4, espeonMoves,"Espeon","Espeon.png"));
+  size(400,400);
+  frameRate(20);
+  frame.setResizable(true);
+
+  forsound = millis();
+    
+  fcomment = ecomment = wcomment= "";
+    
+  manA = new ArrayList<Pokemon>();
+  manA.add(new Pokemon(12, 4, 3, 4, 1, bulbasaurMoves, "Bulbasaur","Bulbasaur.png"));
+   
+  manB = new ArrayList<Pokemon>();
+  manB.add(new Pokemon(18,7,6,3,6,turtwigMoves,"Turtwig","Turtwig.jpg"));
+   
+  boss = new ArrayList<Pokemon>();
+  boss.add(new Pokemon(30, 10, 8, 4, 4, espeonMoves,"Espeon","Espeon.png"));
+   
   trans = false;
-   frame.setResizable(true);
-     map = new Tile[20][20];
+  
+  map = new Tile[20][20];
+  
   dreamteam = new ArrayList<Pokemon>();
+  
   ash = new Player();
-  state = 1;//supposed to be 1 3 for testing
-  istate = 1;
+  
+  state = istate = 1;
   fstate = 0;
- s = 0; 
- canAttack = intro = true;
+  s = 0; 
+  
+  canAttack = playmusic = intro = true;
+
  Starters = new Pokemon[]{Charmander, Squirtle, Bulbasaur};
-    for (int i = 0; i < map.length; i++){
-       for (int j = 0; j < map[0].length; j++){
-          addTile(i,j,brown);
-       } 
-    }
-    map[5][4] = new Tile(5,4,manA);
-    map[17][2] = new Tile(17,2, manB);
-    map[17][16] = new Tile(17,16, boss, 1);
+  
+ for (int i = 0; i < map.length; i++){
+   for (int j = 0; j < map[0].length; j++){
+          addTile(i,j,green);
+   } 
+  }
+  
+  map[5][4] = new Tile(5,4,manA);
+  map[17][2] = new Tile(17,2, manB);
+  map[17][16] = new Tile(17,16, boss, 1);
   map[2][16].yesOccupied();
 
-for (int i = 1; i < 4; i ++){
- for (int j = 1; j < 10; j ++){
-  map[i][j].beGrass();
- } 
-}
-for (int i = 7; i < 13; i++){
- for (int j = 15; j < 18; j++){
-  map[i][j].beGrass();
- } 
-}
-for (int i = 12; i < 16; i++){
- for (int j = 3; j < 6 ; j++){
- map[i][j].beGrass();
- } 
-}
-for (int i = 16; i < 20; i++){
- for (int j = 9; j < 14; j++){
-  map[i][j].beWater();
- } 
-}
-map[15][10].beWater();
-map[15][11].beWater();
-map[15][12].beWater();
-map[14][11].beWater();
-map[10][10].beHealer();
+ for (int i = 1; i < 4; i ++){
+  for (int j = 1; j < 10; j ++){
+   map[i][j].beGrass();
+  } 
+ }
+ 
+ for (int i = 7; i < 13; i++){
+  for (int j = 15; j < 18; j++){
+   map[i][j].beGrass();
+  } 
+ }
+ 
+ for (int i = 12; i < 16; i++){
+  for (int j = 3; j < 6 ; j++){
+  map[i][j].beGrass2();
+  } 
+ }
+ 
+ for (int i = 16; i < 20; i++){
+  for (int j = 9; j < 14; j++){
+   map[i][j].beWater();
+  } 
+ }
+
+ map[15][10].beWater();
+ map[15][11].beWater();
+ map[15][12].beWater();
+ map[14][11].beWater();
+ map[10][10].beHealer();
 
 }
 
@@ -140,9 +171,18 @@ void setEnemy(Pokemon p){
  Enemy = p; 
 }
 void draw(){
+  if ( playmusic == true){
+  noise = new Minim(this);
+  player = noise.loadFile("pokemontheme.mp3");
+  player.play();
+  forsound = millis();
+  playmusic = false;
+  }
+  if (millis() - forsound > 198000){
+   playmusic = true; 
+  }
   if (intro == true){
     frame.setSize(1000,563);
-    PImage img;
     img = loadImage("introScreen.jpg");
     image(img, 0, 0);
     fill(black);
@@ -160,7 +200,6 @@ void draw(){
    if (state == 1){
     
      if (istate == 1){
-     PImage img;
      img = loadImage("Oak.png");
      image(img,80,0);   
      for (int i = 0; i < 4; i ++){
@@ -175,7 +214,6 @@ void draw(){
      }
      if (istate == 2){
        background(white);
-     PImage img;
      img = loadImage("Oak.png");
      image(img,80,0); 
      for (int i = 4; i < 9; i ++){
@@ -216,10 +254,9 @@ void draw(){
      if (istate == 4){
       frame.setSize(500,600);
        background(white);
-     PImage img;
      img = loadImage("Oak.png");
      image(img,150,0); 
-     for (int i = 12; i < 22; i ++){
+     for (int i = 12; i < 25; i ++){
       text(lines[i],10,270 + i * 10);
      }
       if (keyPressed){
@@ -232,7 +269,6 @@ void draw(){
      }
      if (istate == 5){
       background(white);
-      PImage img;
      img = loadImage("begin.jpg");
     image (img, 0, 0);
    text("Your Journey to Become the Best has Started!", 75, 300);
@@ -282,6 +318,7 @@ void draw(){
      }
      }
      if (fstate == 1){
+       
        User.getMoves();
        if (keyPressed){
          if (canAttack == true ){
@@ -290,7 +327,11 @@ void draw(){
          fcomment = User.useMove(a-1, Enemy);         
          canAttack = false;
          ecomment = Enemy.useRMove(User);
-         if (Enemy.getCurHp() == 0){
+         if (User.getCurHp()== 0){      
+           before = millis();
+           state = 6;
+         }
+         else if (Enemy.getCurHp() == 0){
             fstate = 2;
             wcomment = User.addExp(Enemy.getLevel());
            }
@@ -318,7 +359,6 @@ void draw(){
    if (state == 41){
       ash.checkFront().yesDefeated();
      background(white);
-     PImage img;
      if (ash.checkFront().isBoss()){
      img = loadImage("bossTrainer.png");
      }
@@ -334,14 +374,13 @@ void draw(){
    }
    if (state == 42){
      background(white);
-    PImage img;
     if (ash.checkFront().isBoss()){
     img = loadImage("bossTrainer.png");
     }
     else img = loadImage("enemyTrainer.png");
     image(img, 140, 0);
     fill(black);
-   text ("I Challenge You To A Battle!!!",120,250);
+   text ("I Challenge You To A Battle!!!",120,350);
    ash.checkFront().setEnemy();
    delay(100);
    if (keyPressed){
@@ -374,6 +413,14 @@ void draw(){
      fstate = 0;
      }
    }
+   else if(map[ash.getX()][ash.getY()].isGrass2() == true){
+      if ((int)random(10)==0){
+     Pokemon a = (Pokemon)(pokemonList2[((int)random(3))].clone());
+     Enemy = a;
+     state = 3;
+     fstate = 0;
+      } 
+     }
    }
    else if (key == 'd'){
    ash.moveRight(); 
@@ -383,6 +430,14 @@ void draw(){
      Enemy = a;
      state = 3;
      fstate = 0;
+     }
+     else if(map[ash.getX()][ash.getY()].isGrass2() == true){
+      if ((int)random(10)==0){
+     Pokemon a = (Pokemon)(pokemonList2[((int)random(3))].clone());
+     Enemy = a;
+     state = 3;
+     fstate = 0;
+      } 
      }
    }  
  
@@ -396,6 +451,14 @@ void draw(){
      state = 3;
      fstate = 0;
      }
+     else if(map[ash.getX()][ash.getY()].isGrass2() == true){
+      if ((int)random(10)==0){
+     Pokemon a = (Pokemon)(pokemonList2[((int)random(3))].clone());
+     Enemy = a;
+     state = 3;
+     fstate = 0;
+      } 
+     }
    }  
  }
    else if (key == 'a'){
@@ -407,7 +470,15 @@ void draw(){
      state = 3;
      fstate = 0;
      }
-   }  
+   }
+ else if(map[ash.getX()][ash.getY()].isGrass2() == true){
+      if ((int)random(10)==0){
+     Pokemon a = (Pokemon)(pokemonList2[((int)random(3))].clone());
+     Enemy = a;
+     state = 3;
+     fstate = 0;
+      } 
+     }  
  }
    else if (key == ' '){
      if (ash.checkFront().isHealer()){
@@ -429,7 +500,6 @@ void draw(){
   else if (state == 5){
     User.recover();
     background(black);
-    PImage img;
     if (User == Charmander){
      img = loadImage("charheal.jpg");
     }
@@ -449,13 +519,40 @@ void draw(){
      } 
     }
   }
+  else if (state == 6){
+    if (millis() - before < 2000){
+    frame.setSize(640,480);
+    img = loadImage("critical.jpg");
+    image(img,0,0);
+    fill(white);
+    text("OH NO YOUR POKEMON HAS TAKEN SEVERE DAMAGE!",200,400);
+    }
+    else{
+    frame.setSize(720,800);
+    img = loadImage("gameover.jpg");
+    image(img,0,0);
+    fill(black);
+    text("Game Over", 50,600);
+    } 
+}
+  else if (state ==7){
+   frame.setSize(500,337);
+   img = loadImage ("winner.jpg");
+   image(img,0,0);
+   fill(white);
+   text("Congratulations!",0,180);
+   text("You Have Won the Game!",0, 200);
+  }
+}
+if (map[17][16].getDefeated() == true){
+ state = 7;
 }
 }
+
 class Tile{
    private int x, y;
    private color c; 
-   private boolean occupied, grass, grass2, land,water;
-   private boolean trainer, defeated, boss, healer;
+   private boolean occupied, grass, grass2, land, water, trainer, defeated, boss, healer;
    private ArrayList<Pokemon> reamTeam;
    
    public Tile(int r, int c, ArrayList<Pokemon> a){
@@ -531,10 +628,10 @@ class Tile{
      return boss; 
     }
     boolean isGrass(){
-     if (grass == true || grass2 == true){
-      return true; 
-     }
-     return false;
+     return grass;
+    }
+    boolean isGrass2(){
+     return grass2; 
     }
     boolean getDefeated(){
       return defeated;
@@ -564,70 +661,57 @@ class Tile{
     
     public void display(){
      if (boss == true){
-       PImage img;
        img = loadImage("granny.jpg");
        image(img, x*20, y*20);
      }
      else if (healer == true){
-      PImage img;
      img = loadImage("healer.png");
      image(img, x*20, y*20);
      }
      else if (water == true){
-      PImage img;
      img = loadImage("water.jpg");
     image (img, x*20, y*20); 
      }
      else if (trainer == true){
-        PImage img;
         img = loadImage("manA.jpg");
     image(img, x * 20,y * 20); 
      }
-     else if (grass == true && occupied == true){
+     else if (grass == true && occupied == true|| grass2 == true && occupied == true){
          if (ash.getDirection() == 1){
-         PImage img;
-     img = loadImage("tgrassN.jpg");
+     img = loadImage("tgrassS.jpg");
      image(img,x*20 ,y*20);
        }
           if (ash.getDirection() == 2){
-            PImage img;
      img = loadImage("tgrassE.jpg");
      image(img,x*20,y*20);
        }
           if (ash.getDirection() == 3){
-            PImage img;
-     img = loadImage("tgrassS.jpg");
+     img = loadImage("tgrassN.jpg");
      image(img,x*20,y*20);
        }
           if (ash.getDirection() == 4){
-            PImage img;
      img = loadImage("tgrassW.jpg");
      image(img,x*20,y*20);
        }
      }
      else if (grass == true || grass2 == true){
-      PImage img;
      img = loadImage("grass.png");
      image (img, x*20, y*20);
      }
       else if (occupied == true){
        if (ash.getDirection() == 1){
-         PImage img;
      img = loadImage("redD.jpg");
      image(img,x*20,y*20);
        }
           if (ash.getDirection() == 2){
-            PImage img;
      img = loadImage("redR.jpg");
      image(img,x*20,y*20);
        }
           if (ash.getDirection() == 3){
-            PImage img;
      img = loadImage("redT.jpg");
      image(img,x*20,y*20);
        }
           if (ash.getDirection() == 4){
-            PImage img;
      img = loadImage("redS.jpg");
      image(img,x*20,y*20);
        }
@@ -638,9 +722,9 @@ class Tile{
      }  
   }
    
-public color getColor(){
-   return c; 
-}
+   public color getColor(){
+     return c; 
+   }
 }
 class Player{
  private int x,y,direction;
@@ -743,110 +827,118 @@ public class Pokemon implements Cloneable{
   String Name, pict;
   int maxHp,curHp,level,exp,atk,spd,def;
   Moves[] moveSet; 
-  boolean alive;
-public Pokemon(int a,int b, int c, int d,int e, Moves[]f, String nam, String pic){
- maxHp = a;
-curHp = maxHp;
-level = b;
-exp = 0;
-atk = c;
-spd = d;
-def = e;
-moveSet = f;
-alive = true;
-Name = nam;
-pict = pic;
+  public Pokemon(int a,int b, int c, int d,int e, Moves[]f, String nam, String pic){
+   maxHp = a;
+   curHp = maxHp;
+   level = b;
+   exp = 0;
+   atk = c;
+   spd = d;
+   def = e;
+   moveSet = f;
+   Name = nam;
+   pict = pic;
 }
 
-Object clone(){
- try {
-  return super.clone();
- } catch(Exception e){
-  return null; 
- }
-}
+  Object clone(){
+   try {
+    return super.clone();
+   } catch(Exception e){
+    return null; 
+   }
+  }
 
-int getExp(){
- return exp; 
-}
-void recover(){
- curHp = maxHp; 
-}
-String getName(){
- return Name; 
-}
-String getPic(){
- return pict; 
-}
-void display(){
- PImage img;
- img = loadImage(pict);
- image(img,80,50);
-}
-void getMoves(){
- String ret = "";
- fill(black);
- for (int i = 0; i < moveSet.length; i++){
-     ret = ret + "<" + (i + 1) + ">" + moveSet[i];
- } 
- text(ret,50,450);
-}
+  int getExp(){
+   return exp; 
+  }
 
-void displayL(){
- PImage img;
-img = loadImage(pict);
-image(img, 0, 50);
-}
+  void recover(){
+   curHp = maxHp; 
+  }
 
-void displayR(){
- PImage img;
-img = loadImage(pict);
-image(img, 550, 50);
-}
-String useMove(int i, Pokemon p){
- return moveSet[i].activate(this, p); 
-}
-String useRMove(Pokemon p){
-  int i = int(random(moveSet.length));
-  return moveSet[i].activate(this, p);
-}
-int getMaxHP(){
- return maxHp; 
-}
-void loseHP(int i){
-  curHp -= i;
-  if (curHp < 0){
-   alive = false; 
-   curHp = 0;
+  String getName(){
+   return Name; 
+  }
+
+  String getPic(){
+   return pict;  
+  }
+
+  void display(){
+   img = loadImage(pict);
+   image(img,80,50);
+  }
+
+  void getMoves(){
+   String ret = "";
+   fill(black);
+   for (int i = 0; i < moveSet.length; i++){
+       ret = ret + "<" + (i + 1) + ">" + moveSet[i];
+   } 
+   text(ret,50,450);
+  }
+
+  void displayL(){
+   img = loadImage(pict);
+   image(img, 0, 50);
+  }
+
+  void displayR(){
+   img = loadImage(pict);
+   image(img, 550, 50);
+  }
+
+  String useMove(int i, Pokemon p){
+    return moveSet[i].activate(this, p); 
+  }
+
+  String useRMove(Pokemon p){
+    int i = int(random(moveSet.length));
+    return moveSet[i].activate(this, p);
+  }
+
+  int getMaxHP(){
+   return maxHp; 
+  }
+
+  void loseHP(int i){
+    curHp -= i;
+   if (curHp < 0){
+     curHp = 0;
   }
 }
-int getCurHp(){
- return curHp; 
-}
-int getLevel(){
- return level; 
-}
-int getAtk(){
- return atk; 
-}
-void loseAtk(int i){
- atk -= i;
-if (atk < 0){
- atk = 0;
-} 
-}
-void gainAtk(int i){
- atk += i;
+
+  int getCurHp(){
+   return curHp; 
+ }
+
+ int getLevel(){
+  return level; 
+ }
+
+ int getAtk(){
+  return atk; 
+ }
+
+ void loseAtk(int i){
+  atk -= i;
+ if (atk <= 1){
+  atk = 1;
+ } 
 }
 
-int getDef(){
- return def; 
-}
+ void gainAtk(int i){
+  atk += i;
+ }
+
+ int getDef(){
+  return def; 
+ }
 
 void loseDef(int i){
  def -= i;
- if (def < 0){
-  def = 0;
+ if (def <= 1){
+  def = 1;
  }
 }
 
@@ -858,7 +950,7 @@ String addExp(int i){
  String ret = "";
   exp += i;
   ret = "Wow " + this.getName() + " Has gained " + i + " Exp!";
-  if (exp > level * 2){
+  if (exp >= level * 2){
    exp = 0;
   level += 1;
   atk += 1;
@@ -926,11 +1018,11 @@ if (track == 5){
  ret = E.getName() + " Has Lost " + temp + " HP!";  
  }if (track == 7){
  int temp = int(U.getAtk() * 1.2);
-  E.loseDef(temp);
+  E.loseHP(temp);
  ret = E.getName() + " Has Lost " + temp + " HP!";  
  }if (track == 8){
  int temp = int(U.getAtk() * 1.2);
-  E.loseDef(temp);
+  E.loseHP(temp);
  ret = E.getName() + " Has Lost " + temp + " HP!";  
  }if (track == 9){
  int temp = int(U.getAtk() * 2);
@@ -950,6 +1042,11 @@ if (track == 5){
   E.loseHP(temp);
  ret = E.getName() + " Has Lost " + temp + " HP! " + U.getName() + " is Tired! Def has Decreased!";  
  }
+  if (track == 12){
+ int temp = int(U.getAtk() * 1.2);
+  E.loseHP(temp);
+ ret = E.getName() + " Has Lost " + temp + " HP!";  
+ }
   if (track == 13){
  int temp = int(U.getAtk() *1.2);
   E.loseHP(temp);
@@ -961,11 +1058,6 @@ if (track == 5){
  ret = E.getName() + " Has Lost " + temp + " HP!";  
  }
   if (track == 15){
- int temp = int(U.getAtk() *1.2);
-  E.loseHP(temp);
- ret = E.getName() + " Has Lost " + temp + " HP!";  
- }
-  if (track == 16){
  int temp = int(U.getAtk() *1.2);
   E.loseHP(temp);
  ret = E.getName() + " Has Lost " + temp + " HP!";  
