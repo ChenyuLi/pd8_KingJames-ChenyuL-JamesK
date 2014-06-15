@@ -19,6 +19,7 @@ Some Tips:
 - The Grandma at the bottom right is the boss. Looks can be Decieving!
  Beat her to win the Game!
 - If your pokemon dies, you lose!
+- You always have the option to run away, do so if your pokemon is low on hp.
 - There is a machine in the center of the map that heals your pokemon
   Click Spacebar in front of it to use it.
 - Pokemon at the top right patch of grass are stronger than normal

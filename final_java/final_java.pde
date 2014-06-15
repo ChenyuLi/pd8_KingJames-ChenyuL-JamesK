@@ -290,7 +290,7 @@ void draw(){
        background(white);
      img = loadImage("Oak.png");
      image(img,150,0); 
-     for (int i = 12; i < 26; i ++){
+     for (int i = 12; i < 27; i ++){
       text(lines[i],10,270 + i * 10);
      }
       if (keyPressed && millis() - before > 300){
