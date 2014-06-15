@@ -22,6 +22,8 @@ Some Tips:
 - You always have the option to run away, do so if your pokemon is low on hp.
 - There is a machine in the center of the map that heals your pokemon
   Click Spacebar in front of it to use it.
+- Your fourth move is the strongest but there are side effects!
+  Use it in tight situations!
 - Pokemon at the top right patch of grass are stronger than normal
 - When battling, click the moves you want to use ONCE don't hold the key
 - Last of all, HAVE FUN!

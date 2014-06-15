@@ -1,5 +1,6 @@
 import java.util.*;
 import ddf.minim.*;  
+import java.util.concurrent.*;
     
     AudioPlayer player;
     Minim noise;
@@ -8,6 +9,8 @@ import ddf.minim.*;
     final static int EAST = 2;
     final static int SOUTH = 3;
     final static int WEST = 4;
+    
+    CLList<Pokemon> Starters;
     
     int state, istate, s, fstate;
     
@@ -77,11 +80,8 @@ import ddf.minim.*;
   Pokemon[] pokemonList1 = new Pokemon[]{Espeon, Jolteon, Ekans, Pidgey, Krabby};
   Pokemon[] pokemonList2 = new Pokemon[]{Growlithe, Turtwig, Zigzagoon};
   
-  //Enemy Trainers' Pokemon
   ArrayList<Pokemon> manA, manB, boss;
-  
-  Pokemon[] Starters;
-  
+    
   ArrayList<Pokemon> dreamteam;
   
 void setup(){
@@ -116,8 +116,11 @@ void setup(){
   
   canAttack = playmusic = intro = introm = true;
 
- Starters = new Pokemon[]{Charmander, Squirtle, Bulbasaur};
-  
+ Starters = new CLList<Pokemon>();
+ Starters.add(Charmander);
+ Starters.add(Squirtle);
+ Starters.add(Bulbasaur);
+   
  for (int i = 0; i < map.length; i++){
    for (int j = 0; j < map[0].length; j++){
           addTile(i,j,green);
@@ -235,7 +238,7 @@ void draw(){
      img = loadImage("Oak.png");
      image(img,80,0);   
      for (int i = 0; i < 4; i ++){
-      text(lines[i],50,360 + i * 10);
+      text(lines[i],50,360 + i * 12);
      }
      if (keyPressed){
       if (key == ' '){
@@ -249,7 +252,7 @@ void draw(){
      img = loadImage("Oak.png");
      image(img,80,0); 
      for (int i = 4; i < 9; i ++){
-      text(lines[i],50,320 + i * 10);
+      text(lines[i],50,305 + i * 12);
      }
      if (keyPressed && millis() - before > 300){
        if (key == ' '){
@@ -261,7 +264,7 @@ void draw(){
      if (istate == 3){
      background(white); 
      text(lines[9],75,370);
-     Starters[s].display();
+     Starters.get(s).display();
      if (keyPressed && millis() - before > 300){
       if (key == '1'){
        if (s == 0){
@@ -278,7 +281,7 @@ void draw(){
        delay(100);
       }
      if (key == '2'){
-      dreamteam.add(Starters[s]);
+      dreamteam.add(Starters.get(s));
       User = dreamteam.get(0);
       before = millis();
        istate = 4;
@@ -290,8 +293,8 @@ void draw(){
        background(white);
      img = loadImage("Oak.png");
      image(img,150,0); 
-     for (int i = 12; i < 27; i ++){
-      text(lines[i],10,270 + i * 10);
+     for (int i = 12; i < 29; i ++){
+      text(lines[i],10,220 + i * 12);
      }
       if (keyPressed && millis() - before > 300){
        if (key == ' '){ 
@@ -444,7 +447,7 @@ void draw(){
    if (key == 'w'){
     ash.moveUp(); 
      if (map[ash.getX()][ash.getY()].isGrass() == true){
-     if ((int)random(30) == 0){
+     if ((int)random(15) == 0){
      Pokemon a = (Pokemon)(pokemonList1[((int)random(5))].clone());
      Enemy = a;
      state = 3;
@@ -452,7 +455,7 @@ void draw(){
      }
    }
    else if(map[ash.getX()][ash.getY()].isGrass2() == true){
-      if ((int)random(30)==0){
+      if ((int)random(15)==0){
      Pokemon a = (Pokemon)(pokemonList2[((int)random(3))].clone());
      Enemy = a;
      state = 3;
@@ -463,14 +466,14 @@ void draw(){
    else if (key == 'd'){
    ash.moveRight(); 
   if (map[ash.getX()][ash.getY()].isGrass() == true){
-     if ((int)random(30) == 0){
+     if ((int)random(15) == 0){
      Pokemon a = (Pokemon)(pokemonList1[((int)random(5))].clone());
      Enemy = a;
      state = 3;
      fstate = 0;
      }
      else if(map[ash.getX()][ash.getY()].isGrass2() == true){
-      if ((int)random(30)==0){
+      if ((int)random(15)==0){
      Pokemon a = (Pokemon)(pokemonList2[((int)random(3))].clone());
      Enemy = a;
      state = 3;
@@ -483,14 +486,14 @@ void draw(){
    else if (key == 's'){
     ash.moveDown(); 
   if (map[ash.getX()][ash.getY()].isGrass() == true){
-     if ((int)random(30) == 0){
+     if ((int)random(15) == 0){
      Pokemon a = (Pokemon)(pokemonList1[((int)random(5))].clone());
      Enemy = a;
      state = 3;
      fstate = 0;
      }
      else if(map[ash.getX()][ash.getY()].isGrass2() == true){
-      if ((int)random(30)==0){
+      if ((int)random(15)==0){
      Pokemon a = (Pokemon)(pokemonList2[((int)random(3))].clone());
      Enemy = a;
      state = 3;
@@ -502,7 +505,7 @@ void draw(){
    else if (key == 'a'){
     ash.moveLeft(); 
   if (map[ash.getX()][ash.getY()].isGrass() == true){
-     if ((int)random(30) == 0){
+     if ((int)random(15) == 0){
      Pokemon a = (Pokemon)(pokemonList1[((int)random(5))].clone());
      Enemy = a;
      state = 3;
@@ -510,7 +513,7 @@ void draw(){
      }
    }
  else if(map[ash.getX()][ash.getY()].isGrass2() == true){
-      if ((int)random(30)==0){
+      if ((int)random(15)==0){
      Pokemon a = (Pokemon)(pokemonList2[((int)random(3))].clone());
      Enemy = a;
      state = 3;
@@ -560,7 +563,7 @@ void draw(){
     }
   }
   else if (state == 6){
-    if (millis() - before < 2000){
+    if (millis() - before < 5000){
     frame.setSize(640,480);
     img = loadImage("critical.jpg");
     image(img,0,0);
@@ -699,7 +702,7 @@ class Tile{
      occupied =false; 
     }
     
-    public void display(){
+    void display(){
      if (boss == true){
        img = loadImage("granny.jpg");
        image(img, x*20, y*20);
@@ -834,7 +837,7 @@ void updateMap(){
   }
   }
  
- public void moveRight(){
+ void moveRight(){
       direction = 2;
   if (x< 19){if (ash.checkFront().isTrainer()!= true && ash.checkFront().isBoss() != true && ash.checkFront().isWater() != true && ash.checkFront().isHealer()!= true){
     map[x][y].origColor();
@@ -843,7 +846,7 @@ void updateMap(){
   }
  }
  
- public void moveDown(){
+ void moveDown(){
       direction = 1;
   if (y <19 ){if (ash.checkFront().isTrainer()!= true && ash.checkFront().isBoss() != true && ash.checkFront().isWater() != true && ash.checkFront().isHealer() != true){
     map[x][y].origColor();
@@ -852,8 +855,7 @@ void updateMap(){
   }
   }
  
- 
- public void moveUp(){
+ void moveUp(){
     direction = 3;
   if (y > 0){ if (ash.checkFront().isTrainer()!= true && ash.checkFront().isBoss() != true && ash.checkFront().isWater() != true && ash.checkFront().isHealer()!= true){
     map[x][y].origColor();
@@ -1135,6 +1137,137 @@ if (track == 5){
     return moveName; 
   } 
 }
+/*****************************************************
+ * class CLList 
+ * implements a circularly-linked list of doubly-linked nodes
+ ******************************************************/
+class CLList<T> {
+
+    // only 1 head/tail/front/end pointer is necessary,
+    // since the list is circularly-linked
+    private DLLNode<T> _head;
+    private int _size = 0;
+
+    public CLList() {
+  _head = null;
+  _size = 0;
+    }
+
+ public int size() { return _size; }
+
+ public boolean add( T x ) {
+
+  if ( size() == 0 ) {
+      _head = new DLLNode<T>( x, null, null );
+      _head.setNext( _head );
+      _head.setPrev( _head );
+  }
+  else {
+      DLLNode<T> oldLast = _head.getPrev();
+
+      // insert new node between head and oldLast
+      _head.setPrev( new DLLNode<T>( x, oldLast, _head) );
+      oldLast.setNext( _head.getPrev() );
+        }
+  _size++;
+
+  return true;
+    }
+
+
+ public T get( int index ) {
+
+  DLLNode<T> tmp = _head;
+
+  for( int i = 0; i < index % size(); i++ )
+      tmp = tmp.getNext();
+
+  return tmp.getValue();
+    }
+
+
+ public T set( int index, T newVal ) {
+
+  T foo;
+  DLLNode<T> tmp = _head;
+
+  for( int i = 0; i < index % size(); i++ )
+      tmp = tmp.getNext();
+
+  foo = tmp.setValue( newVal );
+  
+  return foo;
+    }
+
+
+ public String toString() {
+  String foo = "HEAD-> ";
+  DLLNode<T> tmp = _head;
+  for( int i = 0; i < _size; i++ ) {
+      foo += tmp.getValue() + " <-> ";
+      tmp = tmp.getNext();
+  }
+  if ( foo.length() > 7 )
+      foo = foo.substring( 0, foo.length() - 5 );
+  foo += " <--...back to HEAD";
+  return foo;
+    }
+}//end class CLList
+/*****************************************************
+ * class DLLNode
+ * Implements a doubly-linked node, for use in linear container classes.
+ *****************************************************/
+
+public class DLLNode<T> {
+
+    private T _cargo;    //cargo may only be of type T
+    private DLLNode<T> _nextNode, _prevNode; //pointers to next, prev DLLNodes
+
+
+    // constructor -- initializes instance vars
+    public DLLNode( T value, DLLNode<T> prev, DLLNode<T> next ) {
+  _cargo = value;
+  _nextNode = next;
+  _prevNode = prev;
+    }
+
+
+    //--------------v  ACCESSORS  v--------------
+    public T getValue() { return _cargo; }
+
+    public DLLNode<T> getNext() { return _nextNode; }
+
+    public DLLNode<T> getPrev() { return _prevNode; }
+    //--------------^  ACCESSORS  ^--------------
+
+
+    //--------------v  MUTATORS  v--------------
+    public T setValue( T newVal ) {
+  T foo = getValue();
+  _cargo = newVal;
+  return foo;
+    }
+
+    public DLLNode<T> setNext( DLLNode<T> newNext ) {
+  DLLNode<T> foo = getNext();
+  _nextNode = newNext;
+  return foo;
+    }
+
+    public DLLNode<T> setPrev( DLLNode<T> newPrev ) {
+  DLLNode<T> foo = getPrev();
+  _prevNode = newPrev;
+  return foo;
+    }
+    //--------------^  MUTATORS  ^--------------
+
+
+
+    // override inherited toString
+    public String toString() { return _cargo.toString(); }
+
+
+}//end class DLLNode
 
 
 
