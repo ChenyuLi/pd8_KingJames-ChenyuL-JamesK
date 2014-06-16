@@ -6,6 +6,7 @@ Launching The Game:
 
 Overview of Project:
  - This is a Pokemon RPG Game.
+ - Pokemons are creatures that trainers tame and train to battle with other trainers.
  - Player starts with one of three starter pokemons
  - Player battles wild pokemon and also other trainers' pokemon to gain experience.
  - Open world. Player is free to do as he/she wishes.
